@@ -32,7 +32,7 @@ self.addEventListener("activate", function (event) {
         keyList.map((key) => {
           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
             console.log("Removing old cache data", key);
-            return cache.delete(key);
+            return caches.delete(key);
           }
         })
       );
