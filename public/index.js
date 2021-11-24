@@ -1,4 +1,3 @@
-// import { saveRecord } from './idb';
 let transactions = [];
 let myChart;
 

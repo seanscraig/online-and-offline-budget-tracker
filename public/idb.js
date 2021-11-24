@@ -13,9 +13,12 @@ request.onupgradeneeded = function (event) {
 
   console.log(`DB updated from version ${oldVersion} to ${newVersion}`);
 
+  // save a reference to the database
   db = event.target.result;
 
+  // if the object store is empty
   if (db.objectStoreNames.length === 0) {
+    // create an object store and set it to have an auto incrementing primary key
     db.createObjectStore("BudgetStore", { autoIncrement: true });
   }
 };
@@ -24,6 +27,7 @@ request.onerror = function (event) {
   console.log(`Error: ${event.target.errorCode}`);
 };
 
+// when the request is successful
 request.onsuccess = function (event) {
   console.log("Success");
   db = event.target.result;
@@ -35,7 +39,8 @@ request.onsuccess = function (event) {
   }
 };
 
-export default function saveRecord(record) {
+// Executes when attempting to submit a new transaction but there is no internet connection
+function saveRecord(record) {
   console.log("Save record invoked");
 
   // Create a transaction on the BudgetStore db with readwrite access
@@ -46,8 +51,9 @@ export default function saveRecord(record) {
 
   // Add record to your store with add method
   store.add(record);
-};
+}
 
+// Executes when the internet connection is back online
 function syncDatabase() {
   console.log("check db invoked");
 
@@ -93,5 +99,3 @@ function syncDatabase() {
 
 // Listen for app coming back online
 window.addEventListener("online", syncDatabase);
-
-module.exports = saveRecord;
